@@ -1,0 +1,348 @@
+<!-- <form [formGroup]="selectFolio">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Seleccione folio de cotización</label>
+    <select formControlName="folio" [(ngModel)]="productos.id" [ngModelOptions]="{standalone: true}">
+    <option *ngFor="let folio of productos | keys;" [ngValue]="k" #>
+      {{productos[k].id}}
+    </option>
+  </select>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="mostrarDatos()">Buscar</button>
+</form> -->
+
+<form (ngSubmit)="guardarCambios()" [formGroup]="formulario" #forma="ngForm" id="needs-validation" novalidate>
+  <div class="alert alert-success top-30" data-toggle="modal" data-target="#success" *ngIf="valido">Producto agregado con exito</div>
+  <div class="alert alert-success top-30" data-toggle="modal" data-target="#success" *ngIf="actualizado">Producto modificado con exito</div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Seleccione folio de cotización</label>
+    <select formControlName="folio">
+    <option *ngFor="let id of productos | keys;" [ngValue]="id">
+      {{productos[id].id}}
+    </option>
+  </select>
+  </div>
+  
+  <div class="container-fluid" *ngIf="mostrar">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('nombre').valid && formulario.get('nombre').touched}">
+          <label class="col-form-label col-sm-4 col-xl-4" for="nombre">Nombre:</label>
+          <div class="col-sm-8 col-xl-8">
+            <input [(ngModel)]="producto.nombre" class="form-control" type="text" placeholder="Ingresa nombre del cliente" formControlName="nombre">
+            <div class="form-control-feedback" *ngIf="formulario.controls['nombre'].errors?.required && formulario.controls['nombre'].touched">
+              El código es necesario.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('apellido').valid && formulario.get('apellido').touched}">
+          <label class="col-form-label col-sm-3 col-xl-3" for="apellido">Apellido:</label>
+          <div class="col-sm-9 col-xl-9">
+            <input [(ngModel)]="producto.apellido" class="form-control" type="text" placeholder="Ingresa apellido del cliente" formControlName="apellido">
+            <div class="form-control-feedback" *ngIf="formulario.controls['apellido'].errors?.required && formulario.controls['apellido'].touched">
+              El código es necesario.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('email').valid && formulario.get('email').touched}">
+          <label class="col-form-label col-sm-3 col-xl-3" for="nombre">Email:</label>
+          <div class="col-sm-9 col-xl-9">
+            <input [(ngModel)]="producto.email" class="form-control" type="text" placeholder="Ingresa email del cliente" formControlName="email">
+            <div class="form-control-feedback" *ngIf="formulario.controls['email'].errors?.required && formulario.controls['email'].touched">
+              El código es necesario.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segunda fila -->
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-group row" [ngClass]="{ 'has-danger': !formulario.get('empresa').valid && formulario.get('empresa').touched}">
+          <label class="col-form-label col-sm-4" for="apellido">Empresa/negocio: </label>
+          <div class="col-sm-8 col-xl-8">
+            <input [(ngModel)]="producto.empresa" type="text" class="form-control" placeholder="Ingrese nombre de la empresa/negocio" formControlName="empresa">
+            <div class="form-control-feedback" *ngIf="!formulario.controls['empresa'].valid && formulario.controls['empresa'].touched">
+              La marca es necesaria
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('telefono').valid && formulario.get('telefono').touched}">
+          <label class="col-form-label col-sm-3 col-xl-3" for="telefono">Telefono:</label>
+          <div class="col-sm-9 col-xl-9">
+            <input [(ngModel)]="producto.telefono" class="form-control" type="tel" placeholder="Ingresa telefono del cliente" formControlName="telefono">
+            <div class="form-control-feedback" *ngIf="formulario.controls['telefono'].errors?.required && formulario.controls['telefono'].touched">
+              El código es necesario.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('direccion').valid && formulario.get('direccion').touched}">
+          <label class="col-form-label col-sm-3 col-xl-3" for="direccion">Dirección:</label>
+          <div class="col-sm-9 col-xl-9">
+            <input [(ngModel)]="producto.direccion" class="form-control" type="text" placeholder="Ingresa dirección del cliente" formControlName="direccion">
+            <div class="form-control-feedback" *ngIf="formulario.controls['direccion'].errors?.required && formulario.controls['direccion'].touched">
+              El código es necesario.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <strong class="mt-3">Información de la campaña</strong>
+
+    <div class="container-fluid mt-3">
+        <div class="row justify-content-between">
+          <div class="col-4">
+              <p class="text-center">Detalle</p>
+          </div>
+          <div class="col-4">
+              <p class="text-center">Costo</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-sm-4" for="tipoDePublico">¿Cual es su publico objetivo?</label>
+      <div class="col-sm-4">
+        <select [(ngModel)]="producto.tipoDePublico" type="text" class="form-control" formControlName="tipoDePublico">
+          <option value="Local">Local</option>
+          <option value="Regional">Regional</option>
+          <option value="Nacional">Nacional</option>
+          <option value="Internacional">Internacional</option>
+        </select>
+        
+        <div class="form-control-feedback" *ngIf="formulario.controls['tipoDePublico'].errors?.required && formulario.controls['tipoDePublico'].touched">
+          El modelo es necesario.
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <input formControlName="costoTipoPublico" type="number" class="col-sm-12 text-center">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-sm-4" for="duracion">Duracion de la campaña:</label>
+      <div class="col-sm-4">
+        <select [(ngModel)]="producto.duracion" formControlName="duracion" type="text" class="form-control">
+          <option value="3 meses">3 meses</option>
+          <option value="6 meses">6 meses</option>
+          <option value="12 meses">12 meses</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="formulario.controls['duracion'].errors?.required && formulario.controls['duracion'].touched">
+          El identificador es necesario.
+        </div>
+      </div>
+      <div class="col-sm-4">
+          <input formControlName="costoDuracion" type="number" class="col-sm-12 text-center">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-sm-4" for="pretencion">¿Que se pretende comunicar?</label>
+      <div class="col-sm-4">
+        <select [(ngModel)]="producto.pretencion" formControlName="pretencion" type="text" class="form-control" placeholder="Ingresa pretencion">
+          <option value="Productos y servicios">Productos y servicios</option>
+          <option value="Promociones">Promociones</option>
+          <option value="Difusion de la marca">Difusion de la marca</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="formulario.controls['pretencion'].errors?.required && formulario.controls['pretencion'].touched">
+          El modelo es necesario.
+        </div>
+      </div>
+      <div class="col-sm-4">
+          <input formControlName="costoPretencion" type="number" class="col-sm-12 text-center">
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="container-fluid mt-3">
+      <div class="row justify-content-between">
+        <div class="col-4">
+            <p class="text-center">Total</p>
+        </div>
+        <div class="col-4">
+          <input formControlName="suma" type="number" class="col-sm-12 text-center">
+          </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-lg btn-outline-primary pull-right">Guardar</button>
+        </div>
+      </div>
+  </div>
+</form>
+
+
+
+
+  <!-- <div class="alert alert-success top-30" data-toggle="modal" data-target="#success" *ngIf="valido">Producto agregado con exito</div>
+  <div class="alert alert-success top-30" data-toggle="modal" data-target="#success" *ngIf="actualizado">Producto modificado con exito</div>
+  <div *ngIf="mostrar" class="row animated fadeIn fast">
+    <div class="col-md-4">
+      <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('nombre').valid && formulario.get('nombre').touched}">
+        <label class="col-form-label col-sm-4 col-xl-4" for="nombre">Nombre:</label>
+        <div class="col-sm-8 col-xl-8">
+          <input [(ngModel)]="producto.nombre" class="form-control" type="text" placeholder="Ingresa nombre del cliente" formControlName="nombre">
+          <div class="form-control-feedback" *ngIf="formulario.controls['nombre'].errors?.required && formulario.controls['nombre'].touched">
+            El código es necesario.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" [ngClass]="{ 'has-danger': !formulario.get('empresa').valid && formulario.get('empresa').touched}">
+        <label class="col-form-label col-sm-4" for="apellido">Empresa/negocio: </label>
+        <div class="col-sm-8 col-xl-8">
+          <input [(ngModel)]="producto.empresa" type="text" class="form-control" placeholder="Ingrese nombre de la empresa/negocio" formControlName="empresa">
+          <div class="form-control-feedback" *ngIf="!formulario.controls['empresa'].valid && formulario.controls['empresa'].touched">
+            La marca es necesaria
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <strong class="mb-3">Información de la campaña</strong>
+      <div class="form-group row mt-3" [ngClass]="{ 'has-danger': !formulario.get('tipoDePublico').valid && formulario.get('tipoDePublico').touched}">
+        <label class="col-form-label col-sm-6" for="tipoDePublico">¿Cual es su publico objetivo?</label>
+        <div class="col-sm-6">
+          <select [(ngModel)]="producto.tipoDePublico" type="" class="form-control" formControlName="tipoDePublico">
+            <option value="Local">Local</option>
+            <option value="Local">Regional</option>
+            <option value="Local">Nacional</option>
+            <option value="Local">Internacional</option>
+          </select>
+          
+          <div class="form-control-feedback" *ngIf="formulario.controls['tipoDePublico'].errors?.required && formulario.controls['tipoDePublico'].touched">
+            El modelo es necesario.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" [ngClass]="{ 'has-danger': !formulario.get('duracion').valid && formulario.get('duracion').touched}">
+        <label class="col-form-label col-sm-6" for="duracion">Duracion de la campaña:</label>
+        <div class="col-sm-6">
+          <select type="text" class="form-control">
+            <option value="3 meses">3 meses</option>
+            <option value="3 meses">6 meses</option>
+            <option value="3 meses">12 meses</option>
+          </select>
+          <div class="form-control-feedback" *ngIf="formulario.controls['duracion'].errors?.required && formulario.controls['duracion'].touched">
+            El identificador es necesario.
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Segunda columna -->
+    <!-- <div class="col-md-4">
+      <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('apellido').valid && formulario.get('apellido').touched}">
+        <label class="col-form-label col-sm-3 col-xl-3" for="apellido">Apellido:</label>
+        <div class="col-sm-9 col-xl-9">
+          <input [(ngModel)]="producto.apellido" class="form-control" type="text" placeholder="Ingresa apellido del cliente" formControlName="apellido">
+          <div class="form-control-feedback" *ngIf="formulario.controls['apellido'].errors?.required && formulario.controls['apellido'].touched">
+            El código es necesario.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('telefono').valid && formulario.get('telefono').touched}">
+        <label class="col-form-label col-sm-3 col-xl-3" for="telefono">Telefono:</label>
+        <div class="col-sm-9 col-xl-9">
+          <input [(ngModel)]="producto.telefono" class="form-control" type="tel" placeholder="Ingresa telefono del cliente" formControlName="telefono">
+          <div class="form-control-feedback" *ngIf="formulario.controls['telefono'].errors?.required && formulario.controls['telefono'].touched">
+            El código es necesario.
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <strong>  - </strong>
+      <div class="form-group row mt-3" [ngClass]="{ 'has-danger': !formulario.get('serviciosDestacados').valid && formulario.get('serviciosDestacados').touched}">
+        <label class="col-form-label col-sm-6" for="serviciosDestacados">¿Tiene servicios para destacar?</label>
+        <div class="col-sm-6">
+          <select type="" class="form-control">
+            <option value="Local">Si</option>
+            <option value="Local">No</option>
+          </select>
+          <div class="form-control-feedback" *ngIf="formulario.controls['serviciosDestacados'].errors?.required && formulario.controls['serviciosDestacados'].touched">
+            El modelo es necesario.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mt-3" [ngClass]="{ 'has-danger': !formulario.get('pretencion').valid && formulario.get('pretencion').touched}">
+        <label class="col-form-label col-sm-6" for="pretencion">¿Que se pretende comunicar?</label>
+        <div class="col-sm-6">
+          <select type="" class="form-control" placeholder="Ingresa pretencion">
+            <option value="Local">Productos y servicios</option>
+            <option value="Local">Promociones</option>
+            <option value="Local">Difusion de la marca</option>
+          </select>
+          <div class="form-control-feedback" *ngIf="formulario.controls['pretencion'].errors?.required && formulario.controls['pretencion'].touched">
+            El modelo es necesario.
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Tercera columna -->
+    <!-- <div class="col-md-4">
+      <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('email').valid && formulario.get('email').touched}">
+        <label class="col-form-label col-sm-3 col-xl-3" for="nombre">Email:</label>
+        <div class="col-sm-9 col-xl-9">
+          <input [(ngModel)]="producto.email" class="form-control" type="text" placeholder="Ingresa email del cliente" formControlName="email">
+          <div class="form-control-feedback" *ngIf="formulario.controls['email'].errors?.required && formulario.controls['email'].touched">
+            El código es necesario.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" [ngClass]="{ 'is-invalid': !formulario.get('direccion').valid && formulario.get('direccion').touched}">
+        <label class="col-form-label col-sm-3 col-xl-3" for="direccion">Dirección:</label>
+        <div class="col-sm-9 col-xl-9">
+          <input [(ngModel)]="producto.direccion" class="form-control" type="text" placeholder="Ingresa dirección del cliente" formControlName="direccion">
+          <div class="form-control-feedback" *ngIf="formulario.controls['direccion'].errors?.required && formulario.controls['direccion'].touched">
+            El código es necesario.
+          </div>
+        </div>
+      </div>
+      <hr>
+      <strong>-</strong>
+      <div class="form-group row mt-3" [ngClass]="{ 'is-invalid': !formulario.get('descripcionServicios').valid && formulario.get('descripcionServicios').touched}">
+        <label class="col-form-label col-sm-3 col-xl-3" for="descripcionServicios">¿Cuales?</label>
+        <div class="col-sm-9 col-xl-9">
+          <input class="form-control" type="text" placeholder="Detalle los servicios">
+          <div class="form-control-feedback" *ngIf="formulario.controls['descripcionServicios'].errors?.required && formulario.controls['descripcionServicios'].touched">
+            El código es necesario.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrar" class="form-group">
+      <label for="detalles">Más detalles</label>
+      <textarea [(ngModel)]="producto.detalles" rows="5" cols="25" class="form-control" formControlName="detalles"></textarea>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-lg btn-outline-primary pull-right">Guardar</button>
+        </div>
+      </div>
+</form> -->

@@ -1,0 +1,43 @@
+<div class="main-container animated fadeIn fast">
+  <h2>Tablero de administración</h2>
+  <hr>
+  <div class="alert alert-info">
+    <strong>Bienvenido a su sistema de cotizaciones</strong>
+  </div>
+
+  <div class="row text-center pad-top">
+    <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2">
+      <div class="div-square">
+        <a [routerLink]="['/dashboard/ventas']"> 
+          <i class="fa fa-shopping-cart fa-4x" aria-hidden="true"></i>
+          <h4>Cotizaciones</h4>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2">
+      <div class="div-square">
+        <a [routerLink]="['/dashboard/almacen']"><i class="fa fa-barcode fa-4x" aria-hidden="true"></i>
+          <h4>Clientes</h4>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2">
+      <div class="div-square">
+        <a [routerLink]="['/dashboard/usuarios']"> <i class="fa fa-user fa-4x" aria-hidden="true"></i>
+          <h4>Usuarios</h4>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2">
+      <div class="div-square">
+        <a [routerLink]="['/dashboard/home']"> <i class="fa fa-cog fa-4x" aria-hidden="true"></i>
+          <h4>Ajustes</h4>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+  

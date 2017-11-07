@@ -1,0 +1,31 @@
+<form (ngSubmit)="guardarCambios()" [formGroup]="formulario" #forma="ngForm">
+  <div class="row animated fadeIn fast">
+    <div class="col-md-6">
+      <div class="form-group row" [ngClass]="{ 'has-danger': !formulario.get('username').valid && formulario.get('username').touched}">
+        <label class="col-form-label col-sm-3 col-xl-3">Usuario:</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="user.username" class="form-control" type="text" placeholder="Ingresa usuario" formControlName="username">
+          <div class="form-control-feedback" *ngIf="formulario.controls['username'].errors?.required && formulario.controls['username'].touched">
+            El usuario es necesario.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" [ngClass]="{ 'has-danger': !formulario.get('password').valid && formulario.get('password').touched}">
+        <label class="col-form-label col-sm-3">Contraseña:</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="user.password" class="form-control" type="text" placeholder="Ingresa contraseña" formControlName="password">
+          <div class="form-control-feedback" *ngIf="formulario.controls['password'].errors?.required && formulario.controls['password'].touched">
+            La contraseña es necesaria.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-lg btn-outline-primary pull-right">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

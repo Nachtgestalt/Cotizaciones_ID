@@ -1,0 +1,39 @@
+<table class="table animated fadeIn fast">
+  <thead class="thead-inverse">
+    <tr>
+      <th>#</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Email</th>
+      <th>Empresa</th>
+      <th>Telefono</th>
+      <th>Dirección</th>
+      <th>Tipo de Publico</th>
+      <th>Detalles</th>
+      <th>Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let k of productos | keys; let i = index"
+        [ngClass]="{ 'table-danger': productos[k].cantidad === 0, 'table-success': productos[k].cantidad > 0 }">
+      <td scope = "row" > {{i + 1}} </td>
+      <td> {{productos[k].nombre}} </td>
+      <td> {{productos[k].apellido}} </td>
+      <td> {{productos[k].email}} </td>
+      <td> {{productos[k].empresa}} </td>
+      <td> {{productos[k].telefono}} </td>
+      <td> {{productos[k].direccion}} </td>
+      <td> {{productos[k].tipoDePublico}} </td>
+      <td> {{productos[k].detalles}} </td>
+      <td> {{productos[k].duracion}} </td>
+      <td> {{productos[k].pretencion}} </td>
+      <button (click)="borrarProducto(productos[k].id, k)"
+              type="button"><i class="fa fa-trash btn-trash" aria-hidden="true"></i></button>
+      <button [routerLink]="['/dashboard/almacen/producto',productos[k].id]"
+              type="button"> <i class="fa fa-pencil btn-edit" aria-hidden="true"></i></button>
+    </tr>
+  </tbody>
+</table>
+<div id="content">
+  
+</div>

@@ -1,0 +1,21 @@
+<table class="table animated fadeIn fast">
+  <thead class="thead-inverse">
+    <tr>
+      <th>#</th>
+      <th>Usuario</th>
+      <th>Contraseña</th>
+      <th>Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let k of usuarios | keys; let i = index">
+      <td scope = "row" > {{i + 1}} </td>
+      <td> {{usuarios[k].username}} </td>
+      <td> {{usuarios[k].password}} </td>
+      <button (click)="borrarUsuario(usuarios[k].id, k)"
+              type="button"><i class="fa fa-trash btn-trash" aria-hidden="true"></i></button>
+      <button [routerLink]="['/dashboard/usuarios/usuario',usuarios[k].id]"
+              type="button"> <i class="fa fa-pencil btn-edit" aria-hidden="true"></i></button>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <!-- Image and text -->
+  <a class="navbar-brand" [routerLink]="['/dashboard/home']">
+    <img src="/assets/brand/fantomas.png" width="80" height="30" class="d-inline-block align-top" alt="">
+    Proyectos I+D
+  </a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li routerLinkActive="active" class="nav-item">
+          <a class="nav-link" [routerLink]="['/dashboard/home']"> <i class="fa fa-home" aria-hidden="true"></i> Inicio </a>
+      </li>
+      <li routerLinkActive="active" class="nav-item">
+          <a class="nav-link" [routerLink]="['/dashboard/almacen']"> <i class="fa fa-barcode" aria-hidden="true"></i> Cotizaciones </a>
+      </li>
+      <li routerLinkActive="active" class="nav-item">
+          <a class="nav-link" [routerLink]="['/dashboard/usuarios']"> <i class="fa fa-user " aria-hidden="true"></i> Usuarios </a>
+      </li>
+    </ul>
+    <button class="btn btn-outline-success my-2 my-sm-0" 
+            type="submit" [routerLink]="['/login']">
+            Cerrar sesión</button>
+  </div>
+</nav>
+
+<div class="main top-30 animated fadeIn fast">
+    <router-outlet class="main"></router-outlet>
+</div>
