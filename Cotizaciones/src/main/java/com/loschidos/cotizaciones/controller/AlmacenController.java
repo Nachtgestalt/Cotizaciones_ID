@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.loschidos.cotizaciones.entity.Cotizacion;
 import com.loschidos.cotizaciones.entity.Producto;
 import com.loschidos.cotizaciones.recursos.GeneratePDFFile;
+import com.loschidos.cotizaciones.recursos.SendMail;
 import com.loschidos.cotizaciones.service.CotizacionService;
 import com.loschidos.cotizaciones.service.ProductoService;
 
@@ -68,6 +69,9 @@ public class AlmacenController {
 		cotizacionService.addCotizacion(cotizacion);
 		GeneratePDFFile generatePDFFile = new GeneratePDFFile();
         generatePDFFile.createPDF(new File("src/Reporte.pdf"), cotizacion);
+        
+        SendMail sendMail = new SendMail();
+        sendMail.EnviarCorreo(cotizacion);
 		return new ResponseEntity<Cotizacion>(cotizacion, HttpStatus.OK);
 	}	
 	
