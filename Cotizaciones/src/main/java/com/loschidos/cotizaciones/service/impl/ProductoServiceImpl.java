@@ -15,14 +15,13 @@ public class ProductoServiceImpl implements ProductoService{
 
 	@Autowired
 	@Qualifier("productoJpaRepository")
-	
 	private ProductoJpaRepository productoJpaRepository;
 	
 	@Override
 	public Producto addProducto(Producto producto) {
 		return productoJpaRepository.save(producto);
 	}
-
+	
 	@Override
 	public List<Producto> listAllProducts() {
 		return productoJpaRepository.findAll();

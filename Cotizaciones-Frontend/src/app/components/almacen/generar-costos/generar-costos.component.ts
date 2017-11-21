@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ProductosService } from './../../../services/productos.service';
+import { CotizacionesService } from './../../../services/cotizaciones.service';
 import { Producto } from './../../../interfaces/producto.interface';
 
 @Component({
@@ -11,6 +12,9 @@ import { Producto } from './../../../interfaces/producto.interface';
   styleUrls: ['./generar-costos.component.css']
 })
 export class GenerarCostosComponent implements OnInit {
+
+  valido = false;
+  actualizado = false;
 
   private producto: Producto = {
     folio: null,
@@ -25,7 +29,10 @@ export class GenerarCostosComponent implements OnInit {
     descripcionServicios: '',
     duracion: '',
     pretencion: '',
-    detalles: ''
+    detalles: '',
+    costoDuracion: null,
+    costoObjetivo: null,
+    costoTipoProducto: null
   };
 
   eliminado = false;
@@ -41,6 +48,7 @@ export class GenerarCostosComponent implements OnInit {
   total = 0;
 
   constructor( private _productosService: ProductosService,
+                private _cotizacionesService: CotizacionesService,
                 private router: Router) {
 
     this.formulario = new FormGroup({
@@ -74,15 +82,19 @@ export class GenerarCostosComponent implements OnInit {
       switch (this.producto.tipoDePublico) {
         case 'Local':
           this.formulario.controls['costoTipoPublico'].setValue(3000);
+          this.producto.costoObjetivo = 3000;
           break;
         case 'Regional':
           this.formulario.controls['costoTipoPublico'].setValue(5000);
+          this.producto.costoObjetivo = 5000;
           break;
         case 'Nacional':
           this.formulario.controls['costoTipoPublico'].setValue(7000);
+          this.producto.costoObjetivo = 7000;
           break;
         case 'Internacional':
             this.formulario.controls['costoTipoPublico'].setValue(10000);
+            this.producto.costoObjetivo = 10000;
             break;
       }
       this.publico = this.producto.tipoDePublico;
@@ -95,12 +107,15 @@ export class GenerarCostosComponent implements OnInit {
       switch (this.producto.duracion) {
         case '3 meses':
           this.formulario.controls['costoDuracion'].setValue(3000);
+          this.producto.costoDuracion = 3000;
           break;
         case '6 meses':
           this.formulario.controls['costoDuracion'].setValue(5000);
+          this.producto.costoDuracion = 5000;
           break;
         case '12 meses':
           this.formulario.controls['costoDuracion'].setValue(7000);
+          this.producto.costoDuracion = 7000;
           break;
       }
       this.total += this.formulario.get('costoDuracion').value;
@@ -112,12 +127,15 @@ export class GenerarCostosComponent implements OnInit {
       switch (this.producto.pretencion) {
         case 'Productos y servicios':
           this.formulario.controls['costoPretencion'].setValue(3000);
+          this.producto.costoTipoProducto = 3000;
           break;
         case 'Promociones':
           this.formulario.controls['costoPretencion'].setValue(5000);
+          this.producto.costoTipoProducto = 5000;
           break;
         case 'Difusion de la marca':
           this.formulario.controls['costoPretencion'].setValue(7000);
+          this.producto.costoTipoProducto = 7000;
           break;
       }
       this.total += this.formulario.get('costoPretencion').value;
@@ -137,5 +155,17 @@ export class GenerarCostosComponent implements OnInit {
     this.mostrar = !this.mostrar;
     console.log(this.formulario.value);
     console.log('Recibo el id' + folio);
+  }
+
+  guardarCambios() {
+    this._cotizacionesService.agregar(this.producto)
+    .subscribe(data => {
+      this.actualizado = true;
+      setTimeout(() => {
+        this.formulario.reset();
+        this.valido = false;
+        this.router.navigate(['/dashboard/almacen/productos']);
+      }, 2000);
+    });
   }
 }

@@ -12,4 +12,7 @@ export interface Producto {
     duracion: string;
     pretencion: string;
     detalles: string;
+    costoDuracion: number;
+    costoObjetivo: number;
+    costoTipoProducto: number;
 }

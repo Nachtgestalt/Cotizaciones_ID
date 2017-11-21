@@ -8,13 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cliente")
-public class Producto {
+@Table(name = "cotizacion")
+public class Cotizacion {
 
-	public Producto() {
+	public Cotizacion() {
 	}
 	
-	public Producto(int id, String nombre, String apellido, String email, String empresa, String telefono,
+	public Cotizacion(int id, String nombre, String apellido, String email, String empresa, String telefono,
 			String direccion, String tipoDePublico, String serviciosDestacados, String descripcionServicios, String duracion, String pretencion, String detalles) {
 		super();
 		this.id = id;
@@ -30,7 +30,7 @@ public class Producto {
 		this.pretencion = pretencion;
 	}
 	
-	public Producto(int id, String nombre, String apellido, String email, String empresa, String telefono,
+	public Cotizacion(int id, String nombre, String apellido, String email, String empresa, String telefono,
 			String direccion, String tipoDePublico, String detalles, String duracion, String pretencion,
 			int costoObjetivo, int costoDuracion, int costoTipoProducto) {
 		super();
@@ -49,9 +49,6 @@ public class Producto {
 		this.costoDuracion = costoDuracion;
 		this.costoTipoProducto = costoTipoProducto;
 	}
-
-
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -88,13 +85,13 @@ public class Producto {
 	@Column(name = "pretencion", nullable = true, length = 160)
 	private String pretencion;
 	
-	@Column(name = "costoObjetivo", nullable = true, length = 160)
+	@Column(name = "costoObjetivo")
 	private int costoObjetivo;
 	
-	@Column(name = "costoDuracion", nullable = true, length = 160)
+	@Column(name = "costoDuracion")
 	private int costoDuracion;
 	
-	@Column(name = "costoTipoProducto", nullable = true, length = 160)
+	@Column(name = "costoTipoProducto")
 	private int costoTipoProducto;
 	
 	

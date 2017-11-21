@@ -30,7 +30,10 @@ export class AgregarComponent implements OnInit {
     descripcionServicios: '',
     duracion: '',
     pretencion: '',
-    detalles: ''
+    detalles: '',
+    costoDuracion: null,
+    costoObjetivo: null,
+    costoTipoProducto: null
   };
 
   nuevo: boolean = false;

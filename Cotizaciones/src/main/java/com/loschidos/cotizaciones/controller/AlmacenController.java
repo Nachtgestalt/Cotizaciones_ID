@@ -1,5 +1,6 @@
 package com.loschidos.cotizaciones.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.loschidos.cotizaciones.entity.Cotizacion;
 import com.loschidos.cotizaciones.entity.Producto;
+import com.loschidos.cotizaciones.recursos.GeneratePDFFile;
+import com.loschidos.cotizaciones.service.CotizacionService;
 import com.loschidos.cotizaciones.service.ProductoService;
 
 
@@ -27,10 +31,16 @@ public class AlmacenController {
 	@Qualifier("productoServiceImpl")
 	private ProductoService productoService;
 	
+	
+	@Autowired
+	@Qualifier("cotizacionServiceImpl")
+	private CotizacionService cotizacionService;
+	
 	//----- Obtener un producto por id ------
 	@RequestMapping(value= "/productos/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Producto> getProduct(@PathVariable("id") int id){
 		Producto producto = productoService.findById(id);
+		System.out.println("Se ha creado el pdf");
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 	
@@ -43,12 +53,23 @@ public class AlmacenController {
 		}
 		return new ResponseEntity<List<Producto>>(productos, HttpStatus.OK);
 	}
+	
+	
 	//----Crear un producto -----
 	@PostMapping(value = "/productos/nuevo")
 	public ResponseEntity<Producto> crearProducto(@RequestBody Producto producto){
 		productoService.addProducto(producto);
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
-	}
+	}	
+	
+	//----Crear una cotizacion -----
+	@PostMapping(value = "/productos/cotizacion")
+	public ResponseEntity<Cotizacion> crearCotizacion(@RequestBody Cotizacion cotizacion){
+		cotizacionService.addCotizacion(cotizacion);
+		GeneratePDFFile generatePDFFile = new GeneratePDFFile();
+        generatePDFFile.createPDF(new File("src/Reporte.pdf"), cotizacion);
+		return new ResponseEntity<Cotizacion>(cotizacion, HttpStatus.OK);
+	}	
 	
 	
 	@PutMapping("/productos/{id}")

@@ -9,6 +9,7 @@ import { APP_ROUTING } from './app.routes';
 // Servicios
 import { ProductosService } from './services/productos.service';
 import { UserService } from './services/user.service';
+import { CotizacionesService } from './services/cotizaciones.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
@@ -29,6 +30,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { AdduserComponent } from './components/usuarios/adduser/adduser.component';
 import { ModifyuserComponent } from './components/usuarios/modifyuser/modifyuser.component';
 import { GenerarCostosComponent } from './components/almacen/generar-costos/generar-costos.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { GenerarCostosComponent } from './components/almacen/generar-costos/gene
     AdduserComponent,
     ModifyuserComponent,
     GenerarCostosComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +62,7 @@ import { GenerarCostosComponent } from './components/almacen/generar-costos/gene
   ],
   providers: [
     ProductosService,
+    CotizacionesService,
     UserService
   ],
   bootstrap: [AppComponent]
